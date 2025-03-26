@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import datetime
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-3qcg9j204dvk-yl*yh!4zgdqw*^7!tr#g-*m9=y7&8epy#30xt
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'drf_yasg',
     'rest_framework',
+    "corsheaders",
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -49,6 +51,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
 ]
 
 ROOT_URLCONF = 'icard.urls'
@@ -123,3 +127,19 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# USERS 
+AUTH_USER_MODEL = 'users.User'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(days=5)
+}
